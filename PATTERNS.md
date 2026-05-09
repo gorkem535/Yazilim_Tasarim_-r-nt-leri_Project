@@ -20,8 +20,11 @@ classDiagram
         +update()
         +render()
     }
+```
 
-    classDiagram
+**Sonrası (Factory Method Uygulanmış Hali):**
+```mermaid
+classDiagram
     class GameObject {
         <<interface>>
         +update()
@@ -52,3 +55,4 @@ classDiagram
     GameObject <|.. Enemy
     GameObject <|.. Health_Cure
     GameObjectFactory ..> GameObject : creates
+```
