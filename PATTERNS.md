@@ -2,9 +2,9 @@
 
 ## 1. Factory Method (Faz 1)
 
-- [cite_start]**Nerede Kullanıldı:** `GameObjectFactory` sınıfında oyun nesnelerinin üretiminde kullanıldı[cite: 48].
-- **Neden Seçildi:** Başlangıç kodundaki `GameObject` sınıfı bir "God Class" haline gelmişti ve nesne yaratımı esnek değildi. [cite_start]Factory Method ile yaratım sorumluluğunu tek bir merkeze çektim[cite: 48].
-- **Ne Kazandırdım:** Sisteme yeni bir nesne (örneğin "BOSS") eklemek istediğimde ana kodum kırılmayacak. [cite_start]Sadece fabrikaya yeni bir durum eklemem yeterli olacak[cite: 48].
+- **Nerede Kullanıldı:** `GameObjectFactory` sınıfında oyun nesnelerinin üretiminde kullanıldı.
+- **Neden Seçildi:** Başlangıç kodundaki `GameObject` sınıfı bir "God Class" haline gelmişti ve nesne yaratımı esnek değildi. Factory Method ile yaratım sorumluluğunu tek bir merkeze çektim.
+- **Ne Kazandırdım:** Sisteme yeni bir nesne (örneğin "BOSS") eklemek istediğimde ana kodum kırılmayacak. Sadece fabrikaya yeni bir durum eklemem yeterli olacak.
 
 ### UML Sınıf Diyagramı (Öncesi ve Sonrası)
 
