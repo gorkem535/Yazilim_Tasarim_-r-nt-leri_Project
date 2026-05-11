@@ -1,4 +1,10 @@
 
+ phase-1
+public interface Game {
+public void render();
+
+}
+
 public class Game {
 String object_type;
 int health;
@@ -34,3 +40,4 @@ System.out.println("Ekrana can iksiri çizildi");
 
 
 
+ main

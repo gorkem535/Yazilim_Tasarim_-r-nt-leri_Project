@@ -5,12 +5,22 @@ public class Main {
 	public static void main(String[] args) {
 	ArrayList<Game>list=new ArrayList<>();
 	
+ phase-1
+     list.add(Game_ObjectFactory.createGameObject("Main Charecter", 1.80, 70.0, 0));
+     list.add(Game_ObjectFactory.createGameObject("Enemy", 1.75,65.0 , 0));
+     list.add(Game_ObjectFactory.createGameObject("Health_Cure", 0, 0, 10));
+      
+     
+    for (Game obj : list) {
+		obj.render();
+
 	list.add(new Game("Main Charecter" ));
 	list.add(new Game("İtem"));
 	list.add(new Game("Enemy"));
 	
 	for (Game obj : list) {
 	  obj.Render();
+ main
 	}
 
 	}
