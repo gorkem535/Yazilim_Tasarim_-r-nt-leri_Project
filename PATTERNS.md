@@ -1,58 +1,63 @@
 # Uygulanan Tasarım Örüntüleri
 
-## 1. Factory Method (Faz 1)
+## 1. Creational Patterns (Faz 1)
 
-- **Nerede Kullanıldı:** `GameObjectFactory` sınıfında oyun nesnelerinin üretiminde kullanıldı.
-- **Neden Seçildi:** Başlangıç kodundaki `GameObject` sınıfı bir "God Class" haline gelmişti ve nesne yaratımı esnek değildi. Factory Method ile yaratım sorumluluğunu tek bir merkeze çektim.
-- **Ne Kazandırdım:** Sisteme yeni bir nesne (örneğin "BOSS") eklemek istediğimde ana kodum kırılmayacak. Sadece fabrikaya yeni bir durum eklemem yeterli olacak.
+### Factory Method
+- **Nerede Kullanıldı:** `Game_ObjectFactory` sınıfında oyun nesnelerinin (Main_Charecter, Enemy, Health_Cure) üretiminde kullanıldı.
+- **Neden Seçildi:** Nesne yaratım mantığını ana döngüden ayırarak "God Class" problemini çözmek ve yeni nesne eklemeyi esnek hale getirmek için.
+- **Ne Kazandırdı:** Kodun genişletilebilirliği arttı; sisteme yeni bir karakter tipi eklemek artık ana kodu bozmuyor.
 
-### UML Sınıf Diyagramı (Öncesi ve Sonrası)
+---
 
-**Öncesi (God Class - Spagetti Kod):**
+## 2. Structural Patterns (Faz 2)
+
+### A. Adapter Pattern
+- **Nerede Kullanıldı:** `LegacyBossAdapter` sınıfında, eski sistemden gelen `LegacyBoss` sınıfını sisteme entegre etmek için kullanıldı.
+- **Neden Seçildi:** Mevcut `GameObject` arayüzüne (interface) uymayan ancak sistemde kullanılması gereken eski bir kod yapısını, ana sistemi değiştirmeden "adapte" etmek için en uygun yöntemdi.
+- **Alternatiflerin Reddi (Facade vs Adapter):** Projede karmaşık bir alt sistem (fizik motoru, ses motoru vb.) değil, sadece tek bir uyumsuz sınıf söz konusu olduğu için *Facade* örüntüsü gereksiz karmaşık bir çözüm olarak görüldü ve reddedildi.
+
+#### Adapter UML Diyagramı:
 ```mermaid
 classDiagram
-    class GameObject {
-        +String type
-        +float kilo
-        +float boy
-        +int stok
-        +GameObject(String type, float kilo, float boy, int stok)
-        +update()
-        +render()
-    }
+    class GameObject { <<interface>> +update() +render() }
+    class LegacyBoss { +moveSlower() +drawBigCharacter() }
+    class LegacyBossAdapter { -LegacyBoss oldBoss +update() +render() }
+    GameObject <|.. LegacyBossAdapter
+    LegacyBossAdapter --> LegacyBoss : adapts
 ```
 
-**Sonrası (Factory Method Uygulanmış Hali):**
+### B. Decorator Pattern
+- **Nerede Kullanıldı:** `ArmoredDecorator` sınıfında, oyuncu nesnesine dinamik olarak zırh özelliği kazandırmak için kullanıldı.
+- **Neden Seçildi:** Bir nesnenin temel sınıf kodunu değiştirmeden, çalışma zamanında (runtime) ona esnek ve istiflenebilir özellikler ekleyebilmek için seçildi.
+- **Alternatiflerin Reddi (Kalıtım vs Decorator):** Klasik *Kalıtım (Inheritance)* yöntemi reddedildi; çünkü her özellik kombinasyonu (Zırhlı, Hızlı, Ateşli vb.) için ayrı alt sınıf oluşturmak "Class Explosion" (sınıf patlaması) problemine yol açacaktı.
+
+#### Decorator UML Diyagramı:
 ```mermaid
 classDiagram
-    class GameObject {
-        <<interface>>
-        +update()
-        +render()
-    }
-    class Main_Charecter {
-        -float kilo
-        -float boy
-        +update()
-        +render()
-    }
-    class Enemy {
-        -float kilo
-        -float boy
-        +update()
-        +render()
-    }
-    class Health_Cure {
-        -int stok
-        +update()
-        +render()
-    }
-    class GameObjectFactory {
-        +createGameObject(String type, float kilo, float boy, int stok) GameObject$
-    }
+    class GameObject { <<interface>> +update() +render() }
+    class GameObjectDecorator { #GameObject decoratedObject +update() +render() }
+    class ArmoredDecorator { +update() +render() }
+    GameObject <|.. GameObjectDecorator
+    GameObjectDecorator o-- GameObject : wraps
+    GameObjectDecorator <|-- ArmoredDecorator
+```
 
-    GameObject <|.. Main_Charecter
-    GameObject <|.. Enemy
-    GameObject <|.. Health_Cure
+---
+
+## 3. Faz 2 Mimari Genel Görünümü
+Faz 2 sonunda sistem; fabrikadan çıkan nesnelerin hem adaptörler aracılığıyla dış sistemlere bağlanabildiği hem de dekoratörler ile dinamik olarak geliştirilebildiği bir yapıya evrilmiştir.
+
+```mermaid
+classDiagram
+    class GameObjectFactory { +createGameObject() }
+    class GameObject { <<interface>> }
+    class Main_Charecter { }
+    class LegacyBossAdapter { }
+    class ArmoredDecorator { }
+
     GameObjectFactory ..> GameObject : creates
+    GameObject <|.. Main_Charecter
+    GameObject <|.. LegacyBossAdapter
+    GameObject <|.. ArmoredDecorator
+    ArmoredDecorator o-- GameObject : decorates
 ```
