@@ -1,0 +1,25 @@
+name: Java Build CI
+
+# Bu test ne zaman çalışsın? main ve phase-3'e kod gelince!
+on:
+  push:
+    branches: [ "main", "phase-3" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repoyu Klonla
+      uses: actions/checkout@v3
+
+    - name: Java 17 Kurulumu
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Kodları Derle
+      run: javac $(find src -name "*.java")
