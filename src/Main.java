@@ -26,5 +26,27 @@ public class Main {
             obj.render(); 
         }
         
+        Main_Charecter hero = new Main_Charecter(1.80,75.0);
+        HealthUI screenUI = new HealthUI();
+       
+        hero.addObserver(screenUI);
+        
+        System.out.println(" Varsayılan Silahla Saldırı:");
+        hero.performAttack();
+        
+        System.out.println(" Büyüye Geçiş ve Saldırı:");
+        hero.setAttackStrategy(new MagicAttack());
+        hero.performAttack();
+        
+        System.out.println("\n3. Hasar Alma ve Bildirim Sistemi:");
+        hero.takeDamage(30);
+        hero.takeDamage(60);
+        
+        System.out.println(" OCP KANITI: Koda Dokunmadan Ok Atma Yeteneği Eklendi:");
+        hero.setAttackStrategy(new BowAttack());
+        hero.performAttack();
+        
+        
     }
+    
 }
