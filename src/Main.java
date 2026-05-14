@@ -1,42 +1,30 @@
-import java.awt.List;
 import java.util.ArrayList;
 
 public class Main {
 
-	public static void main(String[] args) {
-	ArrayList<Game>list=new ArrayList<>();
-	
- phase-2
-    Game player=Game_ObjectFactory.createGameObject("Main Charecter", 1.80, 70.0, 0);
-    Game armoredPlayer=new ArmoredDecorator(player);
-    list.add(armoredPlayer);
+    public static void main(String[] args) {
+        ArrayList<Game> list = new ArrayList<>();
+        
+       
 
- phase-1
-     list.add(Game_ObjectFactory.createGameObject("Main Charecter", 1.80, 70.0, 0));
- main
-     list.add(Game_ObjectFactory.createGameObject("Enemy", 1.75,65.0 , 0));
-     list.add(Game_ObjectFactory.createGameObject("Health_Cure", 0, 0, 10));
-      
-     LegacyBoss oldBoss=new LegacyBoss();
-     Game adaptedBoss=new LegacyBoss_Adapter(oldBoss);
-     list.add(adaptedBoss);
-     
-    for (Game obj : list) {
-		obj.render();
+        // 1. Zırhlı Ana Karakter (Factory + Decorator)
+        Game player = Game_ObjectFactory.createGameObject("Main Charecter", 1.80, 70.0, 0);
+        Game armoredPlayer = new ArmoredDecorator(player);
+        list.add(armoredPlayer);
 
-	list.add(new Game("Main Charecter" ));
-	list.add(new Game("İtem"));
-	list.add(new Game("Enemy"));
-	
-	for (Game obj : list) {
-	  obj.Render();
- main
-	}
-    
-   
-    
-   
-	}
-	
-
+        // 2. Düşman ve Can İksiri (Factory)
+        list.add(Game_ObjectFactory.createGameObject("Enemy", 1.75, 65.0, 0));
+        list.add(Game_ObjectFactory.createGameObject("Health_Cure", 0, 0, 10));
+        
+        // 3. Eski Boss Entegrasyonu (Adapter)
+        LegacyBoss oldBoss = new LegacyBoss();
+        Game adaptedBoss = new LegacyBoss_Adapter(oldBoss);
+        list.add(adaptedBoss);
+        
+        // Tüm nesneleri render et (Faz 0'daki ilkel kodlar ve Git artıkları temizlendi)
+        for (Game obj : list) {
+            obj.render(); 
+        }
+        
+    }
 }
